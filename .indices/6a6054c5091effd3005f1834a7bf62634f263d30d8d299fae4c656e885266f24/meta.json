@@ -1,0 +1,7 @@
+{
+  "pdf_path": "/Users/piyushsh19/Development/AI_DEVELOPMENT/LangSmith/langsmith-masterclass/islr.pdf",
+  "chunk_size": 1000,
+  "chunk_overlap": 150,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "chunks": 1278
+}
