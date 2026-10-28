@@ -7,35 +7,32 @@ from langchain_huggingface import HuggingFacePipeline
 
 load_dotenv()
 
-# Load your downloaded model locally.
-# No OpenAI API call is made.
-llm = HuggingFacePipeline.from_model_id(
+model = HuggingFacePipeline.from_model_id(
     model_id="TinyLlama/TinyLlama-1.1B-Chat-v1.0",
     task="text-generation",
     model_kwargs={
         "local_files_only": True,
     },
-    pipeline_kwargs={
-        "max_new_tokens": 128,
-        "do_sample": False,
-        "return_full_text": False,
-    },
+pipeline_kwargs={
+    "max_new_tokens": 32,
+    "do_sample": False,
+    "return_full_text": False,
+},
 )
 
-# Define the prompt
 prompt = PromptTemplate.from_template(
-    "Answer the following question clearly and briefly: {question}"
+    "You are a helpful assistant.\n"
+    "Question: {question}\n"
+    "Answer:"
 )
 
-# Define the output parser
 parser = StrOutputParser()
 
-# Chain: prompt → local LLM → parser
-chain = prompt | llm | parser
+chain = prompt | model | parser
 
-# Execute the chain
-result = chain.invoke(
-    {"question": "What is the capital of Peru?"}
-)
+result = chain.invoke({
+    "question": "What is the capital of Peru?"
+})
 
-print("Model output:", result)
+print("Model output:", repr(result))
+print("Output length:", len(result))
